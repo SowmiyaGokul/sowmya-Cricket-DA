@@ -1,1 +1,89 @@
+Using existing database 
+use CRIC;
+create table batting_stats(
+Player	varchar(50) primary key, 
+Country varchar(20),
+Match_Played int,	
+Inning int,	Not_out int,
+Runs int,	
+High_Score varchar(10),	
+Average	float,
+SR float,
+hundreads int,
+fifties int,
+zero int,
+fours int,
+sixes int);
+select * from  batting_stats;
+
+*selecting a player name *
+SELECT  player from batting_stats
+where player ='A Dutt ';
+
+*selecting runs>300 , avg>40*
+select Runs,Average from batting_stats
+where Runs>300 and Average >40;
+
+*selecting country name with 2 characters"
+select * from batting_stats where Country like "__";
+* remove duplicates*
+select distinct (Country) from batting_stats where Country like "__";
+
+*select player details name starts with v*
+select * from batting_stats where Player like "v%";
+*to avoid case sensitive*
+select Player from batting_stats where Player ilike "v%";
+*if name do not  starts with v letter*
+select Player from batting_stats where Player not like "v%";
+*somw players has 4 names , but need only first,middle, last names*
+select Player from batting_stats where Player like "%-,%-,%_" and not like  "%-,%-,%_,%_";
+*take avg with not out players*
+select High_Score from batting_stats where High_Score like "%*" ;
+
+*writing sub query for  players who has scroed max runs *
+select * from batting_stats
+where Runs = (select max(Runs) from batting_stats);
+*minimum*
+select * from batting_stats
+where Runs = (select max(Runs) from batting_stats);
+
+*select avg runs*
+select * from batting_stats
+where Runs > (select Avg(Runs) from batting_stats);
+
+*to know over all average*
+select avg(Runs) from batting_stats;
+
+*order by*
+select * from batting_stats
+order by Player desc limit 5;
+
+*offset* to skip rows from 1 in limited data extraction*
+select * from batting_stats
+order by player desc limit 4 offset 1;
+
+*using two columns to order by *
+select * from batting_stats
+order by player,Inning desc limit 4 offset 1;
+
+*SELECT NUMBER OF PLAYERS IN EACH COUNTRY USING GROUP BY *
+select count(*) numbers , Country from batting_stats
+group by Country;
+
+*SELECT NUMBER OF PLAYERS IN EACH COUNTRY USING GROUP BY,HAVING CLASS *
+select count(*) numbers , Country from batting_stats
+group by Country;
+
+select count(*) numbers , Country from batting_stats
+group by Country
+having count(*)>=11;
+
+
+
+
+
+
+
+
+
 
