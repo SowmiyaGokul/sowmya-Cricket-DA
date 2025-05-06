@@ -78,6 +78,14 @@ select count(*) numbers , Country from batting_stats
 group by Country
 having count(*)>=11;
 
+Imported BOWLING STATUS table
+*DEALING WITH NULL VALUE*
+update bowling
+set maiden = null
+where maiden= '-';
+
+
+
 
 
 
