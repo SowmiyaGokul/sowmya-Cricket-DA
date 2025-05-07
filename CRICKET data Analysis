@@ -84,8 +84,56 @@ update bowling
 set maiden = null
 where maiden= '-';
 
+*TO TRIM SPACES*
+  update bowling_stats
+  set Bowlers= Trim(Bowlers);
 
+*PICK PLAYERS FROM BANGLADESH WHO HAD TAKEN MORE THAN 3 WICKETS*
+select Bowler from bowling_stats
+where Country="BAN" and wicket>3;
 
+*PICK BOWLERS FROM INDIA WHO HAS TAKEN MORE WICKETS THAN BANGLADESH*
+select Bowler from bowling_stats
+where Country="IND" and
+wicket>
+(select max(wicket) from bowling_stats where Country ="BAN");
+
+*TO COMPARE ALL, ANY VALUES SATISIFIED CAN USE ALL,ANY operators*
+ select Bowlers,wicket from bowling_stats
+  where Country= "IND" and wicket > all(select max(wicket) from bowling_stats 
+  where Country = 'BAN');
+
+ select Bowlers,wicket from bowling_stats
+  where Country= "IND" and wicket >any  (select max(wicket) from bowling_stats 
+  where Country = 'BAN');
+
+*pick bowlers from india,australia who bowled more than 400*
+select Bowlers,Balls,Country from  bowling_stats
+  where Country in ('AUS','IND') and BAlls>=400;
+  
+select Bowlers,Balls,Country from  bowling_stats
+  where Balls>400 and Country="IND" or Country="AUS";
+
+*list of players who have played and bowled* (set oprts= union,intersect,except) possible without join*
+
+select Player from batting_stats
+union/intersect/except
+select Bowlers from bowling_stats
+
+*TO GET ONLY 2 CHARACTERS FROM NAME *
+  select right('A Zampa', 3);
+  select left('A Zampa', 2);
+
+*TO REPLACE UPPER AND LOWER CASE*
+ select distinct upper('G coetzee')
+ from bowling_stats;
+
+*PERFORM BOTH COUNTRY NAMES AND DATE FROM BOTH TABLES*
+ select * from batting_stats,Bowling_stats;
+ select * from batting_stats ba 
+join
+bowling_stats bo
+on ba.Country=bo.Date;
 
 
 
